@@ -40,4 +40,15 @@ context('Home Page', () => {
       .get('form').get('input[name=urlToShorten]').type('https://cdn.mos.cms.futurecdn.net/otjbibjaAbiifyN9uVaZyL.jpg')
       .get('button').click()
   })
+
+  it.only('Should display an error message if the server gives a bad response', () => {
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', {
+      statusCode: 500,
+      body: 'something happened!'
+    })
+    cy.get('form').get('input[name=title]').type('kitty number 3')
+      .get('form').get('input[name=urlToShorten]').type('https://cdn.mos.cms.futurecdn.net/otjbibjaAbiifyN9uVaZyL.jpg')
+      .get('button').click()
+      .get('.error').should('have.text', 'Something went wrong. Please refresh the page and try again.')
+  })
 })

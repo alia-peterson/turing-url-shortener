@@ -13,22 +13,34 @@ export class App extends Component {
   }
 
   submitUrls = (urlTitle, longUrl) => {
-    const postFormat = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        long_url: longUrl,
-        title: urlTitle
-      })
+    if (urlTitle && longUrl) {
+      const postFormat = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          long_url: longUrl,
+          title: urlTitle
+        })
+      }
+
+      const newUrl = postUrls(postFormat)
+      newUrl.then(urls => {
+        this.setState(prevState => {
+          return { urls: [...prevState.urls, urls] }
+        })
+      }).catch(() => this.displayError('Something went wrong. Please refresh the page and try again.'))
+
+    } else {
+      this.displayError('Both fields must be filled out before submitting the form. Please try again.')
     }
-    
-    const newUrl = postUrls(postFormat)
-    newUrl.then(urls => {
-      this.setState(prevState => {
-        console.log(prevState);
-        return { urls: [...prevState.urls, urls] }
-      })
-    })
+  }
+
+  displayError = (message) => {
+    this.setState({ error: message })
+
+    setTimeout(() => {
+      this.setState({ error: '' })
+    }, 5000)
   }
 
   componentDidMount() {
@@ -44,8 +56,8 @@ export class App extends Component {
         <header>
           <h1>URL Shortener</h1>
           <UrlForm submitUrls={this.submitUrls}/>
+          <p className='error'>{this.state.error}</p>
         </header>
-
         <UrlContainer urls={this.state.urls}/>
       </main>
     )
