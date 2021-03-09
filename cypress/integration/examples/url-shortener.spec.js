@@ -18,4 +18,11 @@ context('Home Page', () => {
     cy.get('form').get('input[name=title]')
       .get('form').get('input[name=urlToShorten]')
   })
+
+  it('Should be able to fill out the form and the information should be reflected in the input fields', () => {
+    cy.get('form').get('input[name=title]').type('hello')
+      .should('have.value', 'hello')
+      .get('form').get('input[name=urlToShorten]').type('something.jpg')
+      .should('have.value', 'something.jpg')
+  })
 })
