@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import { getUrls } from '../../apiCalls'
+import { getUrls, postUrls } from '../../apiCalls'
 import UrlContainer from '../UrlContainer/UrlContainer'
 import UrlForm from '../UrlForm/UrlForm'
 
@@ -10,6 +10,25 @@ export class App extends Component {
     this.state = {
       urls: []
     }
+  }
+
+  submitUrls = (urlTitle, longUrl) => {
+    const postFormat = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        long_url: longUrl,
+        title: urlTitle
+      })
+    }
+    
+    const newUrl = postUrls(postFormat)
+    newUrl.then(urls => {
+      this.setState(prevState => {
+        console.log(prevState);
+        return { urls: [...prevState.urls, urls] }
+      })
+    })
   }
 
   componentDidMount() {
@@ -24,7 +43,7 @@ export class App extends Component {
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm />
+          <UrlForm submitUrls={this.submitUrls}/>
         </header>
 
         <UrlContainer urls={this.state.urls}/>
