@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
-import { getUrls } from '../../apiCalls';
-import UrlContainer from '../UrlContainer/UrlContainer';
-import UrlForm from '../UrlForm/UrlForm';
+import React, { Component } from 'react'
+import './App.css'
+import { getUrls } from '../../apiCalls'
+import UrlContainer from '../UrlContainer/UrlContainer'
+import UrlForm from '../UrlForm/UrlForm'
 
 export class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       urls: []
     }
@@ -25,8 +25,8 @@ export class App extends Component {
 
         <UrlContainer urls={this.state.urls}/>
       </main>
-    );
+    )
   }
 }
 
-export default App;
+export default App
