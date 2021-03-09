@@ -25,4 +25,19 @@ context('Home Page', () => {
       .get('form').get('input[name=urlToShorten]').type('something.jpg')
       .should('have.value', 'something.jpg')
   })
+
+  it('Should be able to create a new post and have that information display on page', () => {
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', {
+      statusCode: 200,
+      body: {
+        "long_url": "https://cdn.mos.cms.futurecdn.net/otjbibjaAbiifyN9uVaZyL.jpg",
+        "title": "kitty number 3",
+        "id": 3,
+        "short_url": "http://localhost:3001/useshorturl/3"
+      }
+    })
+    cy.get('form').get('input[name=title]').type('kitty number 3')
+      .get('form').get('input[name=urlToShorten]').type('https://cdn.mos.cms.futurecdn.net/otjbibjaAbiifyN9uVaZyL.jpg')
+      .get('button').click()
+  })
 })
