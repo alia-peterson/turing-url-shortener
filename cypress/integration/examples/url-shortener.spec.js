@@ -15,8 +15,8 @@ context('Home Page', () => {
   })
 
   it('Should be able to view the form with the proper inputs', () => {
-    cy.get('form').get('input[name=title]')
-      .get('form').get('input[name=urlToShorten]')
+    cy.get('form').get('input[name=title]').should('have.attr', 'type', 'text')
+      .get('form').get('input[name=urlToShorten]').should('have.attr', 'type', 'text')
   })
 
   it('Should be able to fill out the form and the information should be reflected in the input fields', () => {
