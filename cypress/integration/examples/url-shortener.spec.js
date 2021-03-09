@@ -13,4 +13,9 @@ context('Home Page', () => {
       .get('.url').eq(1).find('a').should('have.text', 'http://localhost:3001/useshorturl/2')
       .get('.url').eq(1).find('p').should('have.text', 'https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=ZhplzyJ9')
   })
+
+  it('Should be able to view the form with the proper inputs', () => {
+    cy.get('form').get('input[name=title]')
+      .get('form').get('input[name=urlToShorten]')
+  })
 })
